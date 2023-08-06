@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezen.spring.project.OrderMapper">
+
+	<insert id="addOrder" useGeneratedKeys="true" keyProperty="orderNum" parameterType="com.ezen.spring.project.OrderVO">
+		INSERT INTO itemorder VALUES(NULL, #{goods}, #{user}, #{price}, #{qty}, NOW())
+	</insert>
+	
+	<select id="orderList" parameterType="String" resultType="com.ezen.spring.project.OrderVO">
+		SELECT * FROM itemorder WHERE user=#{uid}
+	</select>
+	
+	<select id="hasPurchaseItem" parameterType="map" resultType="int">
+		SELECT COUNT(*) FROM itemorder WHERE user = #{uid} AND goods = (SELECT goods FROM item WHERE itemNum=#{itemNum})
+	</select>
+</mapper>

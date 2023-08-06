@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezen.spring.project.NoticeMapper">
+
+	<insert id=""></insert>
+	
+	<insert id="addNotice" useGeneratedKeys="true" keyProperty="noticeNum" parameterType="com.ezen.spring.project.NoticeVO">
+		INSERT INTO notice VALUES(NULL, #{noticeTitle}, #{noticeAuthor}, NOW(), #{noticeContents})
+	</insert>
+	
+	<select id="noticeList" resultType="com.ezen.spring.project.NoticeVO">
+		SELECT * FROM notice ORDER BY noticeNum DESC
+	</select>
+	
+	<select id="getNotice" parameterType="Integer" resultType="com.ezen.spring.project.NoticeVO">
+		SELECT * FROM notice WHERE noticeNum=#{noticeNum}
+	</select>
+	
+	<update id="editNotice" parameterType="com.ezen.spring.project.NoticeVO">
+		UPDATE notice SET noticeTitle=#{noticeTitle}, noticeContents=#{noticeContents} WHERE noticeNum=#{noticeNum}
+	</update>
+	
+	<delete id="deleteNotice" parameterType="Integer">
+		DELETE FROM notice WHERE noticeNum=#{noticeNum}
+	</delete>
+	
+	<select id="selectByNotice" parameterType="com.ezen.spring.project.NoticeVO" resultType="com.ezen.spring.project.NoticeVO">
+		SELECT * FROM notice WHERE
+			<choose>
+				<when test="noticeTitle != null "> noticeTitle LIKE CONCAT('%',#{noticeTitle},'%') </when>
+				<when test="noticeContents != null "> noticeContents LIKE CONCAT('%',#{noticeContents},'%') </when>
+			</choose>
+	</select>
+</mapper>

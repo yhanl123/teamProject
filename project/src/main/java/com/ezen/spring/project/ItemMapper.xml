@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezen.spring.project.ItemMapper">
+
+	<insert id="addItem" useGeneratedKeys="true" keyProperty="itemNum" parameterType="com.ezen.spring.project.ItemVO">
+		INSERT INTO item VALUES(NULL, #{goods}, #{price}, 0, 0, #{category}, #{explains})
+	</insert>
+	
+	<insert id="addAttach" useGeneratedKeys="true" keyProperty="itemAttachNum" parameterType="com.ezen.spring.project.ItemAttachVO">
+		INSERT INTO itemattach VALUES
+		<foreach collection="list" item="item" separator=", ">
+			(NULL, #{item.itemAttachName}, #{item.itemParentsNum}, #{item.itemFileSize}, #{item.itemFileContentType} )
+		</foreach>
+	</insert>
+	
+	<select id="itemList" resultType="map">
+		SELECT itemNum, goods, price, purchaseCnt, cartCnt, category,
+			GROUP_CONCAT(itemAttachNum) AS itemAttachNums,
+			GROUP_CONCAT(itemAttachName) AS itemAttachNames,
+			GROUP_CONCAT(itemparentsNum) AS itemparentsNums,
+			GROUP_CONCAT(itemFileSize) AS itemFileSizes,
+			GROUP_CONCAT(itemFileContentType) AS itemFileContentTypes
+		FROM item i LEFT OUTER JOIN itemattach a
+		ON i.itemNum=a.itemParentsNum
+		GROUP BY i.itemNum
+		ORDER BY i.itemNum DESC
+	</select>
+	
+	<select id="detailItem" parameterType="Integer" resultType="map">
+		SELECT itemNum, goods, price, purchaseCnt, cartCnt, category, explains,
+			GROUP_CONCAT(itemAttachNum) AS itemAttachNums,
+			GROUP_CONCAT(itemAttachName) AS itemAttachNames,
+			GROUP_CONCAT(itemparentsNum) AS itemparentsNums,
+			GROUP_CONCAT(itemFileSize) AS itemFileSizes,
+			GROUP_CONCAT(itemFileContentType) AS itemFileContentTypes
+		FROM item i LEFT OUTER JOIN itemattach a
+		ON i.itemNum=a.itemParentsNum
+		WHERE i.itemNum=#{itemNum}
+	</select>
+	
+	<update id="updateItem" parameterType="com.ezen.spring.project.ItemVO">
+		UPDATE item SET goods=#{goods}, price=#{price}, explains=#{explains} WHERE itemNum=#{itemNum}
+	</update>
+	
+	<delete id="deleteItem" parameterType="Integer">
+		DELETE FROM item WHERE itemNum=#{itemNum}
+	</delete>
+	
+	<update id="purchaseCnt" parameterType="com.ezen.spring.project.OrderVO">
+		UPDATE item SET purchaseCnt=purchaseCnt+#{qty} WHERE goods=#{goods}
+	</update>
+	
+	<update id="cartCnt" parameterType="String">
+		UPDATE item SET cartCnt=cartCnt+1 WHERE goods=#{goods}
+	</update>
+</mapper>

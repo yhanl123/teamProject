@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezen.spring.project.AnswerMapper">
+
+	<insert id="addAnswer" useGeneratedKeys="true" keyProperty="answerNum" parameterType="com.ezen.spring.project.AnswerVO">
+		INSERT INTO answer VALUES(NULL, #{answerContents}, #{answerAuthor}, NOW(), #{pQuestionNum})
+	</insert>
+  
+    <select id="checkAnswerExistsForQuestion" parameterType="Integer" resultType="int">
+        SELECT COUNT(*) FROM answer WHERE pQuestionNum = #{pQuestionNum}
+    </select> 
+ 	
+	<select id="getAnswerByQuestion" parameterType="Integer" resultType="com.ezen.spring.project.AnswerVO">
+		SELECT * FROM answer WHERE pQuestionNum=#{questionNum}
+	</select>
+	
+	<select id="getAnswer" parameterType="Integer" resultType="com.ezen.spring.project.AnswerVO">
+		SELECT * FROM answer WHERE AnswerNum=#{AnswerNum}
+	</select>
+	
+	<update id="updateAnswer" parameterType="com.ezen.spring.project.AnswerVO">
+    	UPDATE answer SET answerContents=#{answerContents} WHERE answerNum=#{answerNum}
+	</update>
+
+	<delete id="deleteAnswer" parameterType="Integer">
+    	DELETE FROM answer WHERE answerNum=#{answerNum}
+	</delete>
+	
+</mapper>

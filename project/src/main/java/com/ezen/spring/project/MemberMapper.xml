@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezen.spring.project.MemberMapper">
+
+	<insert id="addMember" useGeneratedKeys="true" keyProperty="memberNum" parameterType="com.ezen.spring.project.MemberVO">
+		INSERT INTO member VALUES(NULL, #{memberName}, #{memberPhone}, #{memberAddress},#{memberID}, #{memberPwd},#{memberEmail},#{memberSex},#{memberBirth},#{national},0,0,0,#{interest})
+	</insert>
+	
+	<select id="checkDuplicate" parameterType="String" resultType="Integer">
+		SELECT count(*) as count FROM member WHERE memberID=#{memberID};
+	</select>
+	
+	<select id="login" parameterType="com.ezen.spring.project.MemberVO" resultType="com.ezen.spring.project.MemberVO">
+		SELECT * FROM member WHERE memberID=#{memberID} AND memberPwd=#{memberPwd}
+	</select>
+	
+	<select id="findId" parameterType="com.ezen.spring.project.MemberVO" resultType="com.ezen.spring.project.MemberVO">
+		SELECT * FROM member WHERE memberName=#{memberName} AND memberEmail=#{memberEmail}
+	</select>
+	
+	<select id="findPwd" parameterType="com.ezen.spring.project.MemberVO" resultType="com.ezen.spring.project.MemberVO">
+		SELECT * FROM member WHERE memberName=#{memberName} AND memberID=#{memberID}
+	</select>
+	
+	<select id="getMember" parameterType="Integer" resultType="com.ezen.spring.project.MemberVO">
+		SELECT * FROM member WHERE memberNum=#{memberNum}
+	</select>
+	
+	<select id="getMemberByID" parameterType="String" resultType="com.ezen.spring.project.MemberVO">
+		SELECT * FROM member WHERE memberID=#{memberID}
+	</select>
+	
+	<update id="update" parameterType="com.ezen.spring.project.MemberVO">
+		UPDATE member SET memberPwd=#{memberPwd}, memberPhone=#{memberPhone}, memberEmail=#{memberEmail}, memberAddress=#{memberAddress}, interest=#{interest} WHERE memberNum=#{memberNum}
+	</update>
+	
+	<delete id="deleteMem" parameterType="Integer">
+		DELETE FROM member WHERE memberNum=#{memberNum}
+	</delete>
+	
+	<select id="getUser" parameterType="String" resultType="com.ezen.spring.project.MemberVO">
+		SELECT * FROM member WHERE memberID=#{uid}
+	</select>
+	
+	<update id="updateUserSavingsAndPoints" parameterType="com.ezen.spring.project.MemberVO">
+		UPDATE member SET saveMoney=#{saveMoney}, point=#{point} WHERE memberID=#{memberID}
+	</update>
+	
+</mapper>

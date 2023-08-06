@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezen.spring.project.QuestionMapper">
+
+	<insert id="addQuestion" useGeneratedKeys="true" keyProperty="questionNum" parameterType="com.ezen.spring.project.QuestionVO">
+		INSERT INTO question VALUES(NULL, #{questionTitle}, #{questionAuthor}, NOW(), #{questionContents})
+	</insert>
+	
+	<select id="getQuestion" parameterType="Integer" resultType="com.ezen.spring.project.QuestionVO">
+		SELECT * FROM question WHERE questionNum=#{questionNum}
+	</select>
+	
+	<select id="getList" resultType="com.ezen.spring.project.QuestionVO">
+		SELECT * FROM question ORDER BY questionNum DESC
+	</select>
+	
+	<update id="updateQuestion" parameterType="com.ezen.spring.project.QuestionVO">
+		UPDATE question SET questionTitle=#{questionTitle}, questionContents=#{questionContents} WHERE questionNum=#{questionNum}
+	</update>
+	
+	<delete id="deleteQuestion" parameterType="Integer">
+		DELETE FROM question WHERE questionNum=#{questionNum}
+	</delete>
+</mapper>

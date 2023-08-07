@@ -15,13 +15,23 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import jakarta.servlet.ServletContext;
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
 @RequestMapping("/member")
 @SessionAttributes("userid")
+@Slf4j
 public class MemberController 
 {
 	@Autowired
 	private MemberDAO memberDAO;
+	
+	@Autowired
+	private ServletContext ctx;
+	
+	@Autowired
+	private MemberSvc svc;
 	
 	@GetMapping("/")
 	public String index(@SessionAttribute(value="userid", required=false) String uid, Model model)
@@ -167,5 +177,46 @@ public class MemberController
 		Map<String, Object> map = new HashMap<>();
 		map.put("deleted", deleted);
 		return map;
+	}
+	
+	@GetMapping("/auth/{memberEmail}")
+	@ResponseBody
+	public Map<String,Boolean> sendTestMail(@PathVariable String memberEmail)
+	{
+		boolean isSent = svc.sendHTMLMessage(ctx, memberEmail);
+		Map<String,Boolean> resMap = new HashMap<>();
+		resMap.put("sent", isSent);
+		return resMap;
+	}
+	
+	@GetMapping("/auth/{memberEmail}/{code}")  // 보낸 메일에서 이용자가 인증 링크를 클릭했을 때
+	@ResponseBody
+	public String setEmailAuth(@PathVariable("memberEmail")String memberEmail, @PathVariable("code")String returnCode)
+	{
+		Map<String, String> authMap = (Map)ctx.getAttribute("authMap");
+		if(authMap.get(memberEmail).equals(returnCode)) {
+			authMap.put(memberEmail, "1");
+			return "이메일 인증 성공";
+		}
+		log.info("인증코드 확인={}", returnCode);
+		return "이메일 인증 실패";
+	}
+	
+	@GetMapping("/auth_check")
+	@ResponseBody
+	public Map<String, Boolean> email_auth(@RequestParam("memberEmail") String memberEmail)
+	{
+		Map<String, String> authMap = (Map) ctx.getAttribute("authMap");
+		String result = authMap.get(memberEmail);
+	      
+		Map<String, Boolean> resMap = new HashMap<>();
+	      
+		if(result.equals("1")) {
+			resMap.put("auth", true);
+			authMap.remove(memberEmail);
+		}else {
+			resMap.put("auth", false);
+		}
+		return resMap;
 	}
 }

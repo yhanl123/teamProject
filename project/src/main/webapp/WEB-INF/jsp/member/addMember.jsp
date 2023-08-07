@@ -137,6 +137,51 @@ function checkPasswordMatch() {
         $("#passwordMatchMessage").text("비밀번호가 일치하지 않습니다.");
     }
 }
+
+var timer = null;
+var email_address = "";
+function auth_check()
+{
+   $.ajax({
+      url:'/member/auth_check',
+      method:'get',
+      cache:false,
+      data:{'memberEmail':email_address},
+      dataType:'json',
+      success : function(res){
+         if(res.auth) {
+            clearInterval(timer);
+            $("#emailVerificationMessage").text("이메일 인증 성공");
+         }
+      },
+      error : function(xhr,status,err){
+         alert('에러:' + err);
+      }
+   })
+}
+
+function reqAuth() {
+	   email_address = $('#memberEmail').val();
+	   $.ajax({
+	      url:'/member/auth/'+email_address,
+	      method:'get',
+	      cache:false,
+	      dataType:'json',
+	      success:function(res){
+	         if(res.sent){
+	            alert('입력하신 이메일 주소로 인증 메일을 보냈습니다\n인증메일의 링크를 클릭해주세요');
+	            timer = setInterval(auth_check, 1000);(10)
+	         }else{
+	            alert('메일 보내기 실패. 다시 시도해주세요');
+	         }
+	      },
+	      error:function(xhr,status,err){
+	         alert('에러:' + err);
+	      }
+	   })
+
+	   return false;
+	}
 </script>
 </head>
 <body>
@@ -173,6 +218,8 @@ function checkPasswordMatch() {
 	<div>
 		<label for="memberEmail">이메일</label>
 		<input type="email" name="memberEmail" id="memberEmail" required>
+		<button type="button" onclick="reqAuth();">이메일 인증</button>
+		<span id="emailVerificationMessage"></span>
 	</div>
 	<div>
 	    <label for="sample6_postcode">우편번호</label>

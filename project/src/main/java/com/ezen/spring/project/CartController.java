@@ -52,7 +52,7 @@ public class CartController
 	            existingCart.setQty(existingQty + qty);
 	            boolean updated = cartDAO.updateCart(existingCart);
 	            map.put("added", updated);
-	        }else {			
+	        }else {
 				CartVO c = new CartVO();
 				c.setUser(uid);
 				c.setGoods(goods);
@@ -65,7 +65,7 @@ public class CartController
 		return map;
 	}
 	
-	@GetMapping("/list")
+	@GetMapping("/list")  
 	public String cartList(Model model, @SessionAttribute(name="userid",required = false) String uid)
 	{
 		List<CartVO> list = cartDAO.cartList(uid);
@@ -73,8 +73,8 @@ public class CartController
 		model.addAttribute("uid", uid);
 		return "itemCart/cartList";
 	}
-	
-	@PostMapping("/update")
+	 
+	@PostMapping("/update")  //수정 결과 메시지
 	@ResponseBody
 	public Map<String, Object> updateResult(@RequestParam int cartNum, @RequestParam int qty)
 	{
@@ -88,7 +88,7 @@ public class CartController
 		return map;
 	}
 	
-	@PostMapping("/delete")
+	@PostMapping("/delete")  //삭제
 	@ResponseBody
 	public Map<String, Object> delete(@SessionAttribute(name="userid",required = false) String uid,@RequestBody List<Integer> cartNums)
 	{
@@ -106,7 +106,7 @@ public class CartController
 		return map;
 	}
 	   
-	@GetMapping("/clear")
+	@GetMapping("/clear")  //카트 전부 비우기
 	@ResponseBody
 	public Map<String, Object> clear(@SessionAttribute(name="userid",required = false) String uid)
 	{

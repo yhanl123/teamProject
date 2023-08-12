@@ -13,7 +13,7 @@
 	<tr><th>답변여부</th><th>글번호</th><th>제 목</th><th>작성자</th><th>작성일</th></tr>
 	<c:forEach var="q" items="${list }">
 		<tr>
-			<td>
+			<td> <!-- 답변여부 컬럼을 만들어서 답변유무에 따라 다르게 보일 수 있도록 -->
                 <c:if test="${answerStatusMap[q.questionNum]}">
                     답변완료
                 </c:if>
@@ -23,7 +23,7 @@
             </td>
 			<td>${q.questionNum }</td>
 			 <td>
-                <c:choose>
+                <c:choose> <!-- 상세보기를 누를 수 있는 건 글쓴 사람과 관리자만 -->
                     <c:when test="${q.questionAuthor == userid || userid == 'admin'}">
                         <a href="/question/get/${q.questionNum}">${q.questionTitle}</a>
                     </c:when>

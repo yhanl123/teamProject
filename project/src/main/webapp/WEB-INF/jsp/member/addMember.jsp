@@ -194,7 +194,7 @@ function reqAuth() {
 		<input type="text" name="memberID" id="memberID" required>
 		
 		<button type="button" onclick="checkDuplicate();">중복확인</button>
-      	<span id="idValidationMessage"></span>
+      	<span id="idValidationMessage"></span> <!-- 중복확인 버튼을 누르면 결과가 중복확인 버튼 옆에 글씨로 나타나요 -->
 	</div>
 	
 	<div>
@@ -205,7 +205,7 @@ function reqAuth() {
 	    <label for="confirmPassword">비밀번호 확인</label>
 	    <input type="password" name="confirmPassword" id="confirmPassword" required>
 	    <button type="button" onclick="checkPasswordMatch()">비밀번호 확인</button>
-	    <span id="passwordMatchMessage"></span>
+	    <span id="passwordMatchMessage"></span> <!-- 확인 버튼을 누르면 결과가 버튼 옆에 글씨로 나타나요 -->
 	</div>
 	<div>
 		<label for="memberName">이름</label>
@@ -219,7 +219,7 @@ function reqAuth() {
 		<label for="memberEmail">이메일</label>
 		<input type="email" name="memberEmail" id="memberEmail" required>
 		<button type="button" onclick="reqAuth();">이메일 인증</button>
-		<span id="emailVerificationMessage"></span>
+		<span id="emailVerificationMessage"></span> <!-- 인증 후 결과가 버튼 옆에 글씨로 나타나요 -->
 	</div>
 	<div>
 	    <label for="sample6_postcode">우편번호</label>

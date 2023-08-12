@@ -46,7 +46,7 @@ public class NoticeController
 			map.put("cause", "관리자만 작성 가능합니다");
 			return map;
 		}
-		n.setNoticeAuthor(uid); //고정적 관리자가 들어가야 할 세션 설정 필요
+		n.setNoticeAuthor(uid); //고정적 관리자가 들어가야 할 세션 설정 필요 'admin'
 		
 		if(n.getNoticeAuthor().equals("admin")){
 			boolean added = noticeDAO.addNotice(n);

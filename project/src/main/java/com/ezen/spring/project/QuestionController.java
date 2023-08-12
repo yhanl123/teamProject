@@ -70,14 +70,14 @@ public class QuestionController
 		List<QuestionVO> list = questionDAO.getList();
 		Map<Integer, Boolean> answerStatusMap = new HashMap<>();
 		
-	    for (QuestionVO q : list) {
+	    for (QuestionVO q : list) { //질문 리스트 중에 한 컬럼을 만들어서 답변의 존재 유무표시(답변 완료/ 답변 예정)
 	        boolean hasAnswer = answerDAO.checkAnswerExistsForQuestion(q.getQuestionNum());
 	        answerStatusMap.put(q.getQuestionNum(), hasAnswer);
 	    }
 		
 		model.addAttribute("list", list);
 		model.addAttribute("userid", uid);
-		model.addAttribute("answerStatusMap", answerStatusMap);
+		model.addAttribute("answerStatusMap", answerStatusMap); //맵에 담아 보여주기
 		
 		return "question/questionList";
 	}

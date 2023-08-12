@@ -117,7 +117,7 @@
 	<a href="javascript:delItem();">삭 제</a>
 </c:if>
 <p>
-<c:if test="${hasPurchased }"> <!-- 구매한 사람만 리뷰쓰기가 보이는 기능이에여 -->
+<c:if test="${hasPurchased }"> <!-- 구매한 사람만 리뷰쓰기가 보이는 기능 -->
 	<button onclick="window.location.href='/review/add/${item.itemNum}'">리뷰쓰기</button>
 </c:if>
 <p>

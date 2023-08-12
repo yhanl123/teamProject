@@ -73,7 +73,7 @@ function likeReview(reviewNum) {
 	<tr><th>추천수</th>
 	<td>
         <span id="likeCount">${r.reviewLikeCnt}</span>
-        <c:if test="${not empty uid}">
+        <c:if test="${not empty uid}">  <!-- 로그인을 해야 좋아요를 누를 수 있게 로그인이 아닌 상태는 보이지 않음 -->
         	<button title="좋아요" onclick="likeReview(${r.reviewNum})">👍🏼</button>
         </c:if>
     </td></tr>

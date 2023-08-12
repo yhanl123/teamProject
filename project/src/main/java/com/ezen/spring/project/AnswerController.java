@@ -34,18 +34,18 @@ public class AnswerController
 	    boolean isAnswerExist = answerDAO.checkAnswerExistsForQuestion(a.getPQuestionNum());
 
 	    if (isAnswerExist) {
-	        map.put("added", false); // 이미 답변이 등록되어 있음을 클라이언트에 전달
+	        map.put("added", false); // 이미 답변이 등록되어 있으면 등록 불가
 	    } else {
 	        a.setAnswerAuthor(uid);
 	        boolean added = answerDAO.addAnswer(a);
-	        map.put("added", added); // 답변 등록 결과를 클라이언트에 전달
+	        map.put("added", added); // 답변 등록 결과 확인
 	    }
 
 	    return map;
 	}
 	
 	
-	@GetMapping("/get/{questionNum}")
+	@GetMapping("/get/{questionNum}") // 질문 고유번호로 답변 가져오기
 	@ResponseBody
 	public Map<String, Object> getAnswer(@PathVariable int questionNum)
 	{
@@ -55,17 +55,17 @@ public class AnswerController
 		return map;
 	}
 	
-	@GetMapping("/update/{answerNum}/{questionNum}")
+	@GetMapping("/update/{answerNum}/{questionNum}")  //답변 수정하기 폼
 	public String update(@PathVariable int answerNum, @PathVariable int questionNum, Model model)
 	{
-		QuestionVO q = questionDAO.getQuestion(questionNum);
+		QuestionVO q = questionDAO.getQuestion(questionNum); // 폼에 질문이 보여지기 위해서 내역 필요
 		AnswerVO a = answerDAO.getAnswer(answerNum);
 		model.addAttribute("a", a);
 		model.addAttribute("q", q);
 		return "question/answerEditForm";
 	}
 	
-	@PostMapping("/update")
+	@PostMapping("/update") //수정 결과 확인
 	@ResponseBody
 	public Map<String, Object> updateAnswer(AnswerVO a) 
 	{	
@@ -75,7 +75,7 @@ public class AnswerController
 		return map;
 	}
 
-	@GetMapping("/delete/{answerNum}")
+	@GetMapping("/delete/{answerNum}") //삭제
 	@ResponseBody
 	public Map<String, Object> deleteAnswer(@PathVariable int answerNum) 
 	{

@@ -95,7 +95,7 @@ public class ItemController
 		return map;
 	}
 	
-	@GetMapping("/list") //<a href="/list/1?category=상의">상의</a>
+	@GetMapping("/list")
 	public String itemList(Model model)
 	{
 		List<Map<String, String>> list = itemDAO.itemList();
@@ -112,7 +112,7 @@ public class ItemController
 	    
 	    boolean hasPurchased = false;
 	    
-	    if(uid != null) {
+	    if(uid != null) { //제품 구매한 사람 확인용 (리뷰쓰기 관련)
 	    	hasPurchased =orderDAO.hasPurchaseItem(uid, itemNum);
 	    }
 	    model.addAttribute("hasPurchased", hasPurchased);
@@ -137,7 +137,7 @@ public class ItemController
 		return map;
 	}
 	
-	@GetMapping("/delete/{itemNum}")
+	@GetMapping("/delete/{itemNum}")  //아이템 삭제
 	@ResponseBody
 	public Map<String, Object> deleteResult(@PathVariable int itemNum, HttpServletRequest request)
 	{
@@ -150,7 +150,7 @@ public class ItemController
 		boolean deleted = itemDAO.deleteItem(itemNum);
 		Map<String, Object> map = new HashMap<>();
 		map.put("deleted", deleted);
-		if(deleted) {
+		if(deleted) { //삭제했으면 사진 파일도 함께 삭제
 			ServletContext context = request.getServletContext();
 			String savePath = context.getRealPath("/items");
 			File delFile = new File(savePath, filename);

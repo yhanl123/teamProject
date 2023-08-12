@@ -55,7 +55,7 @@ public class ReviewController
 		return "review/addReviewForm";
 	}
 	
-	@PostMapping("/add")
+	@PostMapping("/add")  //리뷰 추가
 	@ResponseBody
 	public Map<String, Object> addResult(ReviewVO r, @RequestParam("files")MultipartFile[] mfiles,
 			HttpServletRequest request, @SessionAttribute(name="userid",required = false) String uid)
@@ -102,7 +102,7 @@ public class ReviewController
 		return map;
 	}
 	
-	@GetMapping("/list/{itemNum}/page/{pn}")
+	@GetMapping("/list/{itemNum}/page/{pn}")  //리뷰리스트
 	public String reviewList(@PathVariable int itemNum, @PathVariable int pn, Model model)
 	{
 		PageInfo<Map> pageInfo = reviewDAO.reviewList(itemNum,pn);
@@ -111,7 +111,7 @@ public class ReviewController
 		return "item/reviewList";
 	}
 	
-	@GetMapping("/get/{reviewNum}")
+	@GetMapping("/get/{reviewNum}")  //리뷰 상세보기
 	public String detailReview(@PathVariable int reviewNum, Model model, @SessionAttribute(name="userid",required = false) String uid)
 	{
 		ReviewVO r = reviewSvc.detailReview(reviewNum);
@@ -120,7 +120,7 @@ public class ReviewController
 		return "review/detailReview";
 	}
 	
-	@GetMapping("/remove/{reviewAttachNum}")
+	@GetMapping("/remove/{reviewAttachNum}") //리뷰 첨부파일 삭제
 	@ResponseBody
 	public Map<String,Object> attachRemove(@PathVariable int reviewAttachNum, HttpServletRequest request)
 	{
@@ -130,7 +130,7 @@ public class ReviewController
 		return map;
 	}
 	
-	@PostMapping("/addattach")
+	@PostMapping("/addattach") //첨부파일 추가시
 	@ResponseBody
 	public Map<String,Object> addAttachReview(@RequestParam("files")MultipartFile[] mfiles, HttpServletRequest request, @RequestParam("reviewParentsNum") int reviewParentsNum)
 	{
@@ -172,7 +172,7 @@ public class ReviewController
 		return map;
 	}
 	
-	@GetMapping("/update/{reviewNum}")
+	@GetMapping("/update/{reviewNum}") //수정폼
 	public String updateReview(@PathVariable int reviewNum, Model model)
 	{
 		ReviewVO r = reviewSvc.detailReview(reviewNum);
@@ -180,7 +180,7 @@ public class ReviewController
 		return "review/reviewUpdateForm";
 	}
 	
-	@PostMapping("/update")
+	@PostMapping("/update")  //수정
 	@ResponseBody
 	public Map<String,Object> updateResult(ReviewVO r)
 	{
@@ -190,7 +190,7 @@ public class ReviewController
 		return map;
 	}
 	
-	@GetMapping("/delete/{reviewNum}")
+	@GetMapping("/delete/{reviewNum}")  //삭제
 	@ResponseBody
 	public Map<String,Object> deleteResult(@PathVariable int reviewNum)
 	{
@@ -200,7 +200,7 @@ public class ReviewController
 		return map;
 	}
 	
-	@GetMapping("/like/{reviewNum}")
+	@GetMapping("/like/{reviewNum}")  //좋아요 버튼
 	@ResponseBody
 	public Map<String,Object> likeCnt(@PathVariable int reviewNum, @SessionAttribute(name="userid",required = false) String uid)
 	{

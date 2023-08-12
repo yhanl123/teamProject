@@ -54,13 +54,13 @@ public class OrderController
 			o.setOrderDate(date);
 			
 			boolean added = orderDAO.addOrder(o);
-            if (added) {
+            if (added) { //주문 하면 카트 삭제
                 ordered = true;
-                cartDAO.delete(c.getCartNum());
+                cartDAO.delete(c.getCartNum()); 
             }
 		}
-		int saveMoney = (int)(paymentAmount * 0.03);
-		int point = 100;
+		int saveMoney = (int)(paymentAmount * 0.03); //주문시 적립금 3퍼센트 적립
+		int point = 100;  //포인트 일괄 100포인트
 		
 		MemberVO orderUser = memberDAO.getUser(uid);
 		int newSaveMoney = orderUser.getSaveMoney()+saveMoney;
@@ -76,7 +76,7 @@ public class OrderController
 		return map;
 	}
 	
-	@PostMapping("/direct")
+	@PostMapping("/direct")  //장바구니 담기 아닌 바로 주문 버튼 눌렀을 때 메소드
 	@ResponseBody
 	public Map<String,Object> derectOrder(@SessionAttribute(name="userid",required = false) String uid, @RequestParam("itemNum") int itemNum,@RequestParam("qty") int qty)
 	{

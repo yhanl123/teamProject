@@ -57,6 +57,7 @@ function addAnswer() {
 	return false;
 }
 
+//답변 달리면 답변이 보여지는 폼
 $(document).ready(function() {
 	$.ajax({
 		url: '/answer/get/${q.questionNum}',
@@ -109,7 +110,7 @@ function deleteAnswer(answerNum) {
 	
 </table>
 <p>
-<c:if test="${userid==q.questionAuthor}">
+<c:if test="${userid==q.questionAuthor}"> <!-- 글쓴 사람만 수정 삭제가 보임 -->
 	<a href="/question/update/${q.questionNum }">수정</a>
 	<a href="javascript:delContents();">삭제</a>
 </c:if>
@@ -117,15 +118,15 @@ function deleteAnswer(answerNum) {
 <h3>답변</h3>
 <div id="answer"></div>
 
-<c:if test="${userid=='admin'}">
-	<c:if test="${not empty a}">
+<c:if test="${userid=='admin'}">  <!-- admin 만 수정 삭제가 보임 -->
+	<c:if test="${not empty a}"> <!-- 답변(a)이 존재 한다면 보이는 링크들. 답변이 달려있지 않다면 보이지 않음 -->
         <a href="/answer/update/${a.answerNum}/${q.questionNum}">수정</a>
         <a href="javascript:deleteAnswer(${a.answerNum});">삭제</a>
     </c:if>
 </c:if>
 <p>
 <hr>
-<c:if test="${userid=='admin'}">
+<c:if test="${userid=='admin'}"> <!-- admin만 답변 작성 폼이 보임 -->
 <h3>답변 작성</h3>
 <form id="answerForm" onsubmit="return addAnswer();">
 <input type="hidden" name="pQuestionNum" value="${q.questionNum }">

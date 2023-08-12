@@ -40,13 +40,13 @@ public class MemberController
 		return "member/indexPage";
 	}
 	
-	@GetMapping("/add")
+	@GetMapping("/add") //회원가입 폼
 	public String add()
 	{
 		return "member/addMember";
 	}
 	
-	@PostMapping("/add")
+	@PostMapping("/add") //회원가입 결과확인
 	@ResponseBody
 	public Map<String, Object> addResult(MemberVO m)
 	{
@@ -56,7 +56,7 @@ public class MemberController
 		return map;
 	}
 	
-	@PostMapping("/checkDuplicate")
+	@PostMapping("/checkDuplicate")  //아이디 중복확인
 	@ResponseBody
 	public Map<String, Object> checkDuplicate(@RequestParam String memberID) 
 	{
@@ -66,13 +66,13 @@ public class MemberController
 		return map;
 	}
 	
-	@GetMapping("/login")
+	@GetMapping("/login")  //로그인 폼
 	public String login()
 	{
 		return "member/MemberLoginForm";
 	}
 	
-	@PostMapping("/login")
+	@PostMapping("/login")  //로그인 결과확인
 	@ResponseBody
 	public Map<String, Object> loginResult(MemberVO m, Model model)
 	{
@@ -134,7 +134,7 @@ public class MemberController
 		return "member/findUser";
 	}
 	
-	@GetMapping("/get/{memberNum}")
+	@GetMapping("/get/{memberNum}")  //멤버 고유번호로 내 회원정보 보기
 	public String getMember(@PathVariable int memberNum, Model model)
 	{
 		MemberVO m = memberDAO.getMember(memberNum);
@@ -142,7 +142,7 @@ public class MemberController
 		return "member/detailMember";
 	}
 	
-	@GetMapping("/getbyid/{memberID}")
+	@GetMapping("/getbyid/{memberID}")  //아이디로 내 회원정보 보기
 	public String getMemberByID(@PathVariable String memberID, Model model)
 	{
 		MemberVO m = memberDAO.getMemberByID(memberID);
@@ -150,7 +150,7 @@ public class MemberController
 		return "member/detailMember";
 	}
 	
-	@GetMapping("/update/{memberNum}")
+	@GetMapping("/update/{memberNum}")   //수정 폼
 	public String update(@PathVariable int memberNum, Model model)
 	{
 		MemberVO m = memberDAO.getMember(memberNum);
@@ -158,7 +158,7 @@ public class MemberController
 		return "member/updateMemberForm";
 	}
 	
-	@PostMapping("/update")
+	@PostMapping("/update")  //수정 결과
 	@ResponseBody
 	public Map<String, Object> updateResult(MemberVO m)
 	{
@@ -168,7 +168,7 @@ public class MemberController
 		return map;
 	}
 	
-	@GetMapping("/delete/{memberNum}")
+	@GetMapping("/delete/{memberNum}")  //삭제
 	@ResponseBody
 	public Map<String, Object> deleteResult(@PathVariable int memberNum, SessionStatus status)
 	{
@@ -179,7 +179,7 @@ public class MemberController
 		return map;
 	}
 	
-	@GetMapping("/auth/{memberEmail}")
+	@GetMapping("/auth/{memberEmail}")  //이메일 인증 버튼 눌렀을 시 인증메일 보내는 메소드
 	@ResponseBody
 	public Map<String,Boolean> sendTestMail(@PathVariable String memberEmail)
 	{
@@ -202,7 +202,7 @@ public class MemberController
 		return "이메일 인증 실패";
 	}
 	
-	@GetMapping("/auth_check")
+	@GetMapping("/auth_check")  //인증 성공 유무 알려줄 메소드
 	@ResponseBody
 	public Map<String, Boolean> email_auth(@RequestParam("memberEmail") String memberEmail)
 	{
